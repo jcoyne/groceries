@@ -24,11 +24,12 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(item_params)
-
+    @item = Item.find_or_initialize_by(name: params[:item][:name])
+    @list = List.find(params[:list_id])
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        ItemList.create!(item: @item, list: @list)
+        format.html { redirect_to list_path(@list), notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new }
