@@ -10,6 +10,8 @@ class ListsController < ApplicationController
   # GET /lists/1
   # GET /lists/1.json
   def show
+    @item = Item.new
+    @items = Item.all # TODO limit to this list.
   end
 
   # GET /lists/new
