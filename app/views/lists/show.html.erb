@@ -8,8 +8,8 @@
     <%= f.submit %>
   <% end %>
   <ul>
-    <% @items.each do |item| %>
-      <li><%= item.name %></li>
+    <% @list.item_lists.each do |item_list| %>
+      <li><%= item_list.item.name %> <%= item_list.active? %></li>
     <% end %>
   </ul>
 </p>
