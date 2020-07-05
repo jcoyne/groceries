@@ -10,13 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_05_205718) do
+ActiveRecord::Schema.define(version: 2020_07_05_205913) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "item_lists", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "list_id", null: false
+    t.boolean "completed", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_item_lists_on_item_id"
+    t.index ["list_id"], name: "index_item_lists_on_list_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -34,5 +44,7 @@ ActiveRecord::Schema.define(version: 2020_07_05_205718) do
     t.index ["name"], name: "index_lists_on_name", unique: true
   end
 
+  add_foreign_key "item_lists", "items"
+  add_foreign_key "item_lists", "lists"
   add_foreign_key "items", "categories"
 end
