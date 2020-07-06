@@ -2,18 +2,18 @@
   <div class="card" style="width: 100%;">
     <div class="card-header"><%= link_to 'Back', lists_path %><h2 style="text-align: center"><%= @list.name %></h2></div>
     <div class="card-body">
-      <section>
+      <section data-controller="item-list" data-reflex-root>
         <header class="header">
-          <%= form_with model: @item, url: list_items_path(@list) do |f| %>
-            <%= f.text_field :name, class: 'new-item', autofocus: '', placeholder: 'Add a new item' %>
-          <% end %>
+          <input class="new-item" autofocus placeholder="Add a new item" data-reflex="change->ItemList#create"
+            data-list-id="<%= @list.id %>" data-target="item-list.input">
         </header>
 
         <section class="main">
           <ul class="todo-list">
             <% @list.item_lists.each do |item_list| %>
               <li class="<%= 'completed' if item_list.completed? %>">
-                <%= check_box_tag 'completed', 'yes', item_list.completed?, class: 'toggle' %>
+                <%= check_box_tag 'completed', 'yes', item_list.completed?,
+                    class: 'toggle', data: { reflex: 'change->ItemList#toggle', id: item_list.id } %>
                 <label><%= item_list.item.name %></label>
               </li>
             <% end %>
