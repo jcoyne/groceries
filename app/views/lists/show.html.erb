@@ -1,18 +1,28 @@
-<p id="notice"><%= notice %></p>
+<main>
+  <div class="card" style="width: 100%;">
+    <div class="card-header"><%= link_to 'Back', lists_path %><h2 style="text-align: center"><%= @list.name %></h2></div>
+    <div class="card-body">
+      <section>
+        <header class="header">
+          <%= form_with model: @item, url: list_items_path(@list) do |f| %>
+            <%= f.text_field :name, class: 'new-item', autofocus: '', placeholder: 'Add a new item' %>
+          <% end %>
+        </header>
 
-<p>
-  <strong>Name:</strong>
-  <%= @list.name %>
-  <%= form_with model: @item, url: list_items_path(@list) do |f| %>
-    <%= f.text_field :name %>
-    <%= f.submit %>
-  <% end %>
-  <ul>
-    <% @list.item_lists.each do |item_list| %>
-      <li><%= item_list.item.name %> <%= item_list.active? %></li>
-    <% end %>
-  </ul>
-</p>
-
-<%= link_to 'Edit', edit_list_path(@list) %> |
-<%= link_to 'Back', lists_path %>
+        <section class="main">
+          <ul class="todo-list">
+            <% @list.item_lists.each do |item_list| %>
+              <li class="<%= 'completed' if item_list.completed? %>">
+                <%= check_box_tag 'completed', 'yes', item_list.completed?, class: 'toggle' %>
+                <label><%= item_list.item.name %></label>
+              </li>
+            <% end %>
+          </ul>
+        </section>
+      </section>
+    </div>
+    <div class="card-footer">
+      <%= link_to 'Edit', edit_list_path(@list) %>
+    </div>
+  </div>
+</main>
